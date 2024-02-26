@@ -1,0 +1,60 @@
+package sosittiii;
+
+import java.util.List;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.testng.annotations.AfterTest;
+import org.testng.annotations.BeforeTest;
+import org.testng.annotations.Test;
+
+public class sssis {
+	String MyWebsite ="https://www.saucedemo.com/";
+	String UserName ="standard_user";
+	String Password="secret_sauce";
+	WebDriver driver = new ChromeDriver();
+@BeforeTest
+public void MySetUp () {
+	driver.manage().window().maximize();
+	driver.get(MyWebsite);
+	
+}
+@Test()
+public void MyFirstSetUp() {
+	WebElement UserNameInput = driver.findElement(By.id("user-name"));
+	WebElement PasswordInput = driver.findElement(By.id("password"));
+	WebElement LoginButton = driver.findElement(By.id("login-button"));
+	UserNameInput.sendKeys(UserName);
+	PasswordInput.sendKeys(Password);
+	LoginButton.click();
+}
+	@Test()
+	public void PrintTheFirstItem() {
+		WebElement FirstItem =driver.findElement(By.cssSelector("a[id='item_4_title_link'] div[class='inventory_item_name ']"));
+		String FirstItemtext =FirstItem.getText();
+		System.out.println(FirstItemtext);
+	
+}
+	@Test()
+public void PrintTheAllItems() {
+		List<WebElement> AllItems =driver.findElements(By.className("inventory_item_name"));
+		for(int i=0;i<AllItems.size();i++) {
+			System.out.println(AllItems.get(i).getText());
+		}
+	}
+		@Test()
+		public void AddAllItemsToCart() throws InterruptedException {
+			List<WebElement> AddToCartButtons = driver.findElements(By.className("btn"));
+			for(int i=0;i<AddToCartButtons.size();i++) {
+				if(i%2==0) {
+						AddToCartButtons.get(i).click();
+			}}
+		}
+		
+		
+	
+@AfterTest
+public void AfterSetUp() {}
+}

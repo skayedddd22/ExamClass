@@ -1,0 +1,68 @@
+package swaglap;
+
+import java.util.List;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.testng.annotations.AfterTest;
+import org.testng.annotations.BeforeTest;
+import org.testng.annotations.Test;
+
+public class TestSwagLap {
+	String Mywebsite = "https://www.saucedemo.com/";
+	String UserName ="standard_user";
+	String password = "secret_sauce";
+WebDriver driver = new ChromeDriver();
+	@BeforeTest
+		public void mysetUp() {
+		driver.manage().window().maximize();
+		driver.get(Mywebsite);
+		
+	}
+	@Test(priority = 1)
+	public void AmyfirstSetUp() {
+		WebElement UserNameInput =driver.findElement(By.id("user-name"));
+		WebElement PasswordInput =driver.findElement(By.id("password"));
+		WebElement LoginButton =driver.findElement(By.id("login-button"));
+		UserNameInput.sendKeys(UserName);
+		PasswordInput.sendKeys(password);
+		LoginButton.click();
+	}
+	@Test(enabled = false)
+	public void PrintTheNameOfTheItem() {
+   WebElement firstItem =driver.findElement(By.cssSelector("a[id='item_4_title_link'] div[class='inventory_item_name ']"));
+   String FirstItemText =firstItem.getText();
+   System.out.println(FirstItemText);
+	}
+	@Test(enabled = false)
+	public void PrintTheNameOfAllItem() {
+	List<WebElement>  allitems = driver.findElements(By.className("inventory_item_name"));
+	for(int i=0;i<allitems.size();i++) {
+		System.out.println(allitems.get(i).getText());
+	}}
+	@Test(priority = 2)	
+	public void AddAllItemsToCart() {
+	List<WebElement>AddToCartButtons = driver.findElements(By.className("btn"));
+	List<WebElement> ItemsNames = driver.findElements(By.className("inventory_item_name"));
+	List<WebElement> PriceOfTheItems =driver.findElements(By.className("inventory_item_price"));
+	
+	for(int i=0;i<AddToCartButtons.size();i++) {
+		String ItemName = ItemsNames.get(i).getText();
+		String ItemsPrice =PriceOfTheItems.get(i).getText();
+		double TheItemPriceAsDouble =Double.parseDouble(ItemsPrice.replace("$", ""));
+		double TaxValue =0.08;
+		double ThePriceAfterTheTax =(TheItemPriceAsDouble*TaxValue)+TheItemPriceAsDouble;
+		if(ItemName.contains("Bike")|| ItemName.contains("Bike")) {
+			AddToCartButtons.get(i).click();
+			System.out.println("the Item"+ItemName+"the item price is"+ItemsPrice+"the  item price after is"+ThePriceAfterTheTax);
+		}
+	
+	
+	
+	}
+	}
+	@AfterTest
+	public void myAfterSetUp() {}
+}

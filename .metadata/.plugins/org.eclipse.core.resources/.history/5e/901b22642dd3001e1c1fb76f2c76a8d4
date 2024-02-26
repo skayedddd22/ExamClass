@@ -1,0 +1,39 @@
+package swaglap;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.testng.annotations.AfterTest;
+import org.testng.annotations.BeforeTest;
+import org.testng.annotations.Test;
+
+public class TestSwagLap {
+	String mywebsite = "https://www.saucedemo.com/";
+	String UserName ="standard_user";
+	String password = "secret_sauce";
+WebDriver driver = new ChromeDriver();
+	@BeforeTest
+		public void mysetUp() {
+		driver.manage().window().maximize();
+		driver.get(mywebsite);
+		
+	}
+	@Test(priority = 1)
+	public void AmyfirstSetUp() {
+		WebElement UserNameInput =driver.findElement(By.id("user-name"));
+		WebElement PasswordInput =driver.findElement(By.id("password"));
+		WebElement LoginButton =driver.findElement(By.id("login-button"));
+		UserNameInput.sendKeys(UserName);
+		PasswordInput.sendKeys(password);
+		LoginButton.click();
+	}
+	@Test(priority = 2)
+	public void printTheNameOfTheitem() {
+   WebElement firstItem =driver.findElement(By.className("inventory_item_name "));
+   String firstItemText =firstItem.getText();
+   
+	}
+	@AfterTest
+	public void myAfterSetUp() {}
+}
